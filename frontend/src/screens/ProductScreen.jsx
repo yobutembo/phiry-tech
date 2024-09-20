@@ -6,7 +6,7 @@ import Rating from "../components/Rating";
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
-  const product = products.find((p) => p._id === productId);
+  const product = products.find((product) => product._id === productId);
 
   return (
     <>
