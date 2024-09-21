@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-// import products from "../products";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button, Card } from "react-bootstrap";
 import Rating from "../components/Rating";
@@ -11,11 +11,11 @@ const ProductScreen = () => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const url = `http://localhost:5000/api/products/${productId}`;
+      const url = `/api/products/${productId}`;
       try {
-        const response = await fetch(url);
-        const result = await response.json();
-        setProduct(result);
+        const { data } = await axios.get(url);
+
+        setProduct(data);
       } catch (error) {
         console.error("Error fetching product:", error);
       }
@@ -24,7 +24,6 @@ const ProductScreen = () => {
       fetchProduct();
     }
   }, [productId]);
-  // const product = products.find((product) => product._id === productId);
 
   return (
     <>

@@ -1,18 +1,17 @@
 import { Row, Col } from "react-bootstrap";
-// import products from "../products";
+import axios from "axios";
 import Product from "../components/Product";
 import { useState, useEffect } from "react";
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState(null);
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const url = "http://localhost:5000/api/products";
+      const url = "/api/products";
       try {
-        const response = await fetch(url);
-        const result = await response.json();
-        setProducts(result);
+        const { data } = await axios(url);
+        setProducts(data);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
