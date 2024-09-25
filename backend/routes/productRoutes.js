@@ -18,7 +18,8 @@ router.get(
     if (product) {
       return res.json(product);
     } else {
-      res.stauts(404).json({ message: "Product not found" });
+      res.stauts(404);
+      throw new Error("Product not found");
     }
   })
 );
