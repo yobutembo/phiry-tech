@@ -6,6 +6,7 @@ import { BASE_URL } from "../constants";
 
 //This is the base query that is going to be used by the createApi function
 const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL });
+
 export const apiSlice = createApi({
   baseQuery,
   tagTypes: ["Product", "Order", "user"], //tagTypes are used to group together actions that are related to the same entity
