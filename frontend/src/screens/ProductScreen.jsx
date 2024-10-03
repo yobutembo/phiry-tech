@@ -35,6 +35,7 @@ const ProductScreen = () => {
     dispatch(addToCart({ ...product, qty }));
     navigate("/cart");
   };
+
   return (
     <>
       <Link to="/" className="btn btn-light my-3">
