@@ -9,6 +9,6 @@ const baseQuery = fetchBaseQuery({ baseUrl: BASE_URL });
 
 export const apiSlice = createApi({
   baseQuery,
-  tagTypes: ["Product", "Order", "user"], //tagTypes are used to group together actions that are related to the same entity
+  tagTypes: ["Product", "Order", "User"], //tagTypes are used to group together actions that are related to the same entity
   endpoints: (builder) => ({}),
 });
