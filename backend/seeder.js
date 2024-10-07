@@ -19,6 +19,7 @@ const importData = async () => {
     await User.deleteMany();
 
     const createdUsers = await User.insertMany(users);
+    console.log(createdUsers);
 
     const adminUser = createdUsers[0]._id;
 
