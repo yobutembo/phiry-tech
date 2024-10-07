@@ -6,8 +6,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useSelector } from "react-redux";
 
 const Header = () => {
-  const { cartItems, itemsPrice } = useSelector((state) => state.cart);
-  console.log(itemsPrice);
+  const { cartItems } = useSelector((state) => state.cart);
+
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
