@@ -3,14 +3,27 @@ import { Badge, Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import logo from "../assets/logo.png";
 import { LinkContainer } from "react-router-bootstrap";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useLogoutMutation } from "../slices/usersApiSlice";
+import { clearCredentials } from "../slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
   const { userInfo } = useSelector((state) => state.auth);
+  const [logout] = useLogoutMutation();
 
-  const logoutHandler = () => {
-    console.log("Logout");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutHandler = async () => {
+    try {
+      await logout().unwrap(); // Calls the logout endpoint from the usersApiSlice
+      dispatch(clearCredentials()); // Clears the user info from the store
+      navigate("/login"); // Redirects the user to the login page after logout
+    } catch (err) {
+      console.error("Logout failed: ", err);
+    }
   };
 
   return (

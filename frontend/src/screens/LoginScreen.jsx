@@ -11,8 +11,21 @@ import { toast } from "react-toastify";
 import React from "react";
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [loginDetails, setLoginDetails] = useState({
+    email: "",
+    password: "",
+  });
+
+  const changeHandler = (event) => {
+    const { name, value } = event.target;
+
+    setLoginDetails((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value,
+      };
+    });
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,7 +48,7 @@ const LoginScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await login({ email, password }).unwrap();
+      const res = await login({ ...loginDetails }).unwrap();
       dispatch(setCredentials({ ...res }));
       navigate(redirect);
     } catch (err) {
@@ -50,19 +63,21 @@ const LoginScreen = () => {
         <Form.Group className="my-3 " contorlid="email">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
+            name="email"
             type="email"
             placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            // value={loginDetails.email}
+            onChange={changeHandler}
           ></Form.Control>
         </Form.Group>
         <Form.Group className="my-3 " contorlid="password">
           <Form.Label>Password</Form.Label>
           <Form.Control
+            name="password"
             type="password"
             placeholder="Enter password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            // value={loginDetails.password}
+            onChange={changeHandler}
           ></Form.Control>
         </Form.Group>
 
