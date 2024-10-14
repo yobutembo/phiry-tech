@@ -1,6 +1,6 @@
 import { Nav } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { FaGreaterThan } from "react-icons/fa";
+import { PiGreaterThanLight } from "react-icons/pi";
 
 const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
   return (
@@ -14,7 +14,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
           <Nav.Link disabled>Sign In</Nav.Link>
         )}
       </Nav.Item>
-      <FaGreaterThan />
+      <PiGreaterThanLight />
       <Nav.Item>
         {step2 ? (
           <LinkContainer to="/shipping">
@@ -24,7 +24,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
           <Nav.Link disabled>Shipping</Nav.Link>
         )}
       </Nav.Item>
-      <FaGreaterThan />
+      <PiGreaterThanLight />
       <Nav.Item>
         {step3 ? (
           <LinkContainer to="/payment">
@@ -34,7 +34,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }) => {
           <Nav.Link disabled>Payment</Nav.Link>
         )}
       </Nav.Item>
-      <FaGreaterThan />
+      <PiGreaterThanLight />
       <Nav.Item>
         {step4 ? (
           <LinkContainer to="/placeorder">
