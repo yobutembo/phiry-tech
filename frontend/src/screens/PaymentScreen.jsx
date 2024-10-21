@@ -12,7 +12,6 @@ const PaymentScreen = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
   const { shippingAddress } = cart;
-  console.log(shippingAddress);
 
   useEffect(() => {
     if (!shippingAddress) {
