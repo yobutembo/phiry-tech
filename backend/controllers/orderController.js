@@ -8,7 +8,7 @@ import Order from "../models/orderModel.js";
 const addOrderItems = asyncHandler(async (req, res) => {
   const {
     orderItems,
-    shippingAddres,
+    shippingAddress,
     paymentMethod,
     itemsPrice,
     taxPrice,
@@ -26,7 +26,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
         product: x._id,
         _id: undefined,
       })),
-      shippingAddres,
+      shippingAddress,
       paymentMethod,
       itemsPrice,
       taxPrice,
@@ -86,7 +86,8 @@ const updateOrderToDelivered = asyncHandler(async (req, res) => {
 //@access Private/Admin
 
 const getOrders = asyncHandler(async (req, res) => {
-  res.json("get all orders");
+  const orders = await Order.find({});
+  res.json(orders);
 });
 
 export {
@@ -96,4 +97,5 @@ export {
   getOrderById,
   updateOrderToPaid,
   updateOrderToDelivered,
+  deleteOrders,
 };

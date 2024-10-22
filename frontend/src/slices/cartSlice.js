@@ -42,7 +42,7 @@ const cartSlice = createSlice({
     },
     clearCartItems: (state, action) => {
       state.cartItems = [];
-      return updateCart;
+      return updateCart(state);
     },
   },
 });
