@@ -40,7 +40,7 @@ const addOrderItems = asyncHandler(async (req, res) => {
 });
 
 //@desc Get logged in user's orders
-//@route GET /api/orders/myorders
+//@route GET /api/orders/mine
 //@access Private
 
 const getMyOrders = asyncHandler(async (req, res) => {
