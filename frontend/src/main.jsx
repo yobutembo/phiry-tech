@@ -46,7 +46,10 @@ const router = createBrowserRouter(
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <PayPalScriptProvider deferLoading={true}>
+      <PayPalScriptProvider
+        options={{ components: "buttons" }}
+        deferLoading={true}
+      >
         <RouterProvider router={router} />
       </PayPalScriptProvider>
     </Provider>
