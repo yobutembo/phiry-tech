@@ -112,11 +112,11 @@ const OrderScreen = () => {
               <h2>Shipping</h2>
               <p>
                 <strong>Name: </strong>
-                {order.user.name}
+                {order?.user?.name}
               </p>
               <p>
                 <strong>Email: </strong>
-                {order.user.email}
+                {order?.user?.email}
               </p>
               <p>
                 <strong>Address: </strong>
