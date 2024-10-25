@@ -24,8 +24,6 @@ const ProfileScreen = () => {
       ...prevValue,
       [name]: value,
     }));
-
-    console.log(userDetails);
   };
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.auth);
@@ -66,6 +64,7 @@ const ProfileScreen = () => {
     <Row>
       <Col md={3}>
         <h2>User Profile</h2>
+        <p className="text-sm">(Edit to update your profile)</p>
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name" className="my-2">
             <Form.Label>Name</Form.Label>
