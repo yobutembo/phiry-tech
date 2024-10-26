@@ -4,15 +4,35 @@ import { FaTimes, FaEdit, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
 
-import { useGetProductsQuery } from "../../slices/productsApiSlice";
+import {
+  useGetProductsQuery,
+  useCreateProductMutation,
+} from "../../slices/productsApiSlice";
+import { toast } from "react-toastify";
 
 const ProductListScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery();
+  const { data: products, isLoading, error, refetch } = useGetProductsQuery();
+  const [createProduct, { isLoading: loadingCreate }] =
+    useCreateProductMutation();
 
   const deleteHandler = (id) => {
     console.log(id);
   };
 
+  const createProductHandler = async () => {
+    if (
+      window.confirm(
+        "Are you sure you want to create a new product with sample data?"
+      )
+    ) {
+      try {
+        await createProduct();
+        refetch();
+      } catch (err) {
+        toast.error(err?.data?.message || err?.error);
+      }
+    }
+  };
   return (
     <>
       <Row className="align-items-center">
@@ -20,10 +40,11 @@ const ProductListScreen = () => {
           <h1>Products</h1>
         </Col>
         <Col className="text-end">
-          <Button className="m-3 btn-sm">
+          <Button className="m-3 btn-sm" onClick={createProductHandler}>
             <FaEdit /> Create Product
           </Button>
         </Col>
+        {loadingCreate && <Loader />}
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -38,6 +59,7 @@ const ProductListScreen = () => {
                   <th>PRICE($)</th>
                   <th>CATEGORY</th>
                   <th>BRAND</th>
+                  <th></th>
                   <th></th>
                 </tr>
               </thead>
@@ -64,6 +86,11 @@ const ProductListScreen = () => {
                         <FaTrash />
                       </Button>
                     </td>
+                    <LinkContainer to={`/product/${product._id}`}>
+                      <Button className="btn-sm mx-2" variant="light">
+                        View
+                      </Button>
+                    </LinkContainer>
                   </tr>
                 ))}
               </tbody>
