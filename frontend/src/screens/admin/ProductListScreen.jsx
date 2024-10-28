@@ -86,11 +86,13 @@ const ProductListScreen = () => {
                         <FaTrash />
                       </Button>
                     </td>
-                    <LinkContainer to={`/product/${product._id}`}>
-                      <Button className="btn-sm mx-2" variant="light">
-                        View
-                      </Button>
-                    </LinkContainer>
+                    <td>
+                      <LinkContainer to={`/product/${product._id}`}>
+                        <Button className="btn-sm mx-2" variant="light">
+                          View
+                        </Button>
+                      </LinkContainer>
+                    </td>
                   </tr>
                 ))}
               </tbody>
