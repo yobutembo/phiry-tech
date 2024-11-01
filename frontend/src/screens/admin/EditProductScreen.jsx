@@ -8,65 +8,78 @@ import { toast } from "react-toastify";
 import {
   useUpdateProductMutation,
   useGetProductDetailsQuery,
+  useUploadProductImageMutation,
 } from "../../slices/productsApiSlice";
+
 const EditProductScreen = () => {
   const { id: productId } = useParams();
 
-  const [productData, setProductData] = useState({
-    name: "",
-    price: "",
-    description: "",
-    image: "",
-    brand: "",
-    category: "",
-    countInStock: "",
-    numReviews: "",
-  });
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState(0);
+  const [image, setImage] = useState("");
+  const [brand, setBrand] = useState("");
+  const [category, setCategory] = useState("");
+  const [countInStock, setCountInStock] = useState(0);
+  const [description, setDescription] = useState("");
 
   const {
     data: product,
     isLoading,
-    refetch,
     error,
   } = useGetProductDetailsQuery(productId);
 
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation();
 
-  useEffect(() => {
-    if (product) {
-      setProductData(product);
-    }
-  }, [product]);
-
-  const changeHandler = (e) => {
-    const { name, value } = e.target;
-    setProductData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const [uploadProductImage, { isLoading: loadingUpload }] =
+    useUploadProductImageMutation();
 
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const updatedProduct = {
-        ...productData,
+      await updateProduct({
         productId,
-      };
-      const result = await updateProduct(updatedProduct);
-      if (result.error) {
-        toast.error(result.error);
-      } else {
-        toast.success("Product updated successfully");
-        navigate("/admin/productlist");
-      }
+        name,
+        price,
+        image,
+        brand,
+        category,
+        description,
+        countInStock,
+      }).unwrap();
+      toast.success("Product updated");
+      navigate("/admin/productlist");
     } catch (err) {
-      toast.error(err?.data.message || err.error);
+      toast.error(err?.data?.message || err.error);
     }
   };
+
+  useEffect(() => {
+    if (product) {
+      setName(product.name);
+      setPrice(product.price);
+      setImage(product.image);
+      setBrand(product.brand);
+      setCategory(product.category);
+      setCountInStock(product.countInStock);
+      setDescription(product.description);
+    }
+  }, [product]);
+
+  const uploadFileHandler = async (e) => {
+    const formData = new FormData();
+    formData.append("image", e.target.files[0]);
+    try {
+      const res = await uploadProductImage(formData).unwrap();
+      toast.success(res.message);
+      setImage(res.image);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
+    }
+  };
+
   return (
     <>
       <Link to="/admin/productlist" className="btn btn-light my-3">
@@ -88,8 +101,8 @@ const EditProductScreen = () => {
                 type="text"
                 name="name"
                 placeholder="Enter product name"
-                value={productData.name}
-                onChange={changeHandler}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="price" className="my-2">
@@ -98,12 +111,23 @@ const EditProductScreen = () => {
                 type="number"
                 name="price"
                 placeholder="Enter product price"
-                value={productData.price}
-                onChange={changeHandler}
+                value={price}
+                onChange={(e) => setPrice(parseInt(e.target.value) || 0)}
               />
             </Form.Group>
 
-            {/* IMAGE INPUT PLACEHOLDER */}
+            <Form.Group controlId="image" className="my-2">
+              <Form.Label>Image</Form.Label>
+              <Form.Control
+                name="image"
+                type="text"
+                placeholder="Enter Image Url"
+                value={image}
+                onChange={(e) => setImage(e.target.value)}
+              />
+              <Form.Label className="my-2">Upload Image</Form.Label>
+              <Form.Control type="file" onChange={uploadFileHandler} />
+            </Form.Group>
 
             <Form.Group controlId="brand" className="my-2">
               <Form.Label>Brand</Form.Label>
@@ -111,8 +135,8 @@ const EditProductScreen = () => {
                 type="text"
                 name="brand"
                 placeholder="Enter product brand"
-                value={productData.brand}
-                onChange={changeHandler}
+                value={brand}
+                onChange={(e) => setBrand(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="countInStock" className="my-2">
@@ -121,8 +145,8 @@ const EditProductScreen = () => {
                 type="number"
                 name="countInStock"
                 placeholder="Enter product count in stock"
-                value={productData.countInStock}
-                onChange={changeHandler}
+                value={countInStock}
+                onChange={(e) => setCountInStock(parseInt(e.target.value) || 0)}
               />
             </Form.Group>
             <Form.Group controlId="category" className="my-2">
@@ -131,8 +155,8 @@ const EditProductScreen = () => {
                 type="text"
                 name="category"
                 placeholder="Enter product category"
-                value={productData.category}
-                onChange={changeHandler}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="description" className="my-2">
@@ -141,20 +165,11 @@ const EditProductScreen = () => {
                 type="text"
                 name="description"
                 placeholder="Enter product description"
-                value={productData.description}
-                onChange={changeHandler}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
               />
             </Form.Group>
-            <Form.Group controlId="numReviews" className="my-2">
-              <Form.Label>Number of Reviews</Form.Label>
-              <Form.Control
-                type="number"
-                name="numReviews"
-                placeholder="Enter product number of reviews"
-                value={productData.numReviews}
-                onChange={changeHandler}
-              />
-            </Form.Group>
+
             <Button type="submit" variant="primary" className="my-2">
               Update
             </Button>

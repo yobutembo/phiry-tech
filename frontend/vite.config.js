@@ -6,10 +6,8 @@ export default defineConfig({
   server: {
     proxy: {
       // Proxy API requests to the Express server
-      "/api": {
-        target: "http://localhost:5000",
-        changeOrigin: true,
-      },
+      "/api": "http://localhost:5000",
+      "/uploads": "http://localhost:5000",
     },
   },
 });

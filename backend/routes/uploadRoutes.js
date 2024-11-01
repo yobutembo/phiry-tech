@@ -9,7 +9,10 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename(req, file, cb) {
-    cb(null, `${file.fieldname}-${Date.now}${path.extname(file.originalname)}`);
+    cb(
+      null,
+      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
+    );
   },
 });
 
@@ -25,18 +28,13 @@ function checkFileType(file, cb) {
   }
 }
 
-const upload = multer({
-  storage,
-});
+const upload = multer({ storage: storage });
 
-router.post(
-  "/",
-  upload.single("image", (req, res) => {
-    res.send({
-      message: "Image uploaded",
-      image: `/${req.file.path}`,
-    });
-  })
-);
+router.post("/", upload.single("image"), (req, res) => {
+  res.send({
+    message: "Image uploaded",
+    image: `/${req.file.path.replace(/\\/g, "/")}`,
+  });
+});
 
 export default router;
