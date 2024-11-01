@@ -44,7 +44,7 @@ const createProduct = asyncHandler(async (req, res) => {
 
 //@desc Update a product
 //@route PUT /api/product/:id
-//@access Public
+//@access Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
   const {
     name,
@@ -77,4 +77,26 @@ const updateProduct = asyncHandler(async (req, res) => {
   }
 });
 
-export { getProducts, getProductById, createProduct, updateProduct };
+//@desc Update a product
+//@route DELETE /api/product/:id
+//@access Private/Admin
+
+const deleteProduct = asyncHandler(async (req, res) => {
+  const product = await Product.findById(req.params.id);
+
+  if (product) {
+    await Product.deleteOne({ _id: product._id });
+    res.status(200).json({ message: "Product deleted" });
+  } else {
+    res.status(404);
+    throw new Error("Product not found");
+  }
+});
+
+export {
+  getProducts,
+  getProductById,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
