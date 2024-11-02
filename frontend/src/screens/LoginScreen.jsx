@@ -8,8 +8,6 @@ import { useLoginMutation } from "../slices/usersApiSlice";
 import { setCredentials } from "../slices/authSlice";
 import { toast } from "react-toastify";
 
-import React from "react";
-
 const LoginScreen = () => {
   const [loginDetails, setLoginDetails] = useState({
     email: "",

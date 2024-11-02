@@ -24,7 +24,6 @@ const UserListScreen = () => {
         const res = await deleteUser(id).unwrap();
         refetch();
         toast.success(res.message);
-        d;
       }
     } catch (err) {
       toast.error(err?.data?.message || err.error);

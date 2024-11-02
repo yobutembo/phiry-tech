@@ -25,7 +25,7 @@ const HomeScreen = () => {
                 </Col>
               ))
             ) : (
-              <p>Loading products...</p>
+              <Loader />
             )}
           </Row>
         </>
