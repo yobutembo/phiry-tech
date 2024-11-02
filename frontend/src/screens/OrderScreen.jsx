@@ -227,7 +227,7 @@ const OrderScreen = () => {
               {userInfo &&
                 userInfo.isAdmin &&
                 order.isPaid &&
-                !order.isDlivered && (
+                !order.isDelivered && (
                   <ListGroup.Item>
                     <Button
                       type="button"
