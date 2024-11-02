@@ -32,7 +32,7 @@ const UserListScreen = () => {
   return (
     <>
       <h1>Users</h1>
-      {loadingDelete && <Loadder />}
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
